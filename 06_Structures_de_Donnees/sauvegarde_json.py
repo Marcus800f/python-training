@@ -2,9 +2,13 @@ import json
 """
 Un gestionnaire interactif d'adresses IP utilisant un dictionnaire pour un accès instantané aux données.
 """
-
+try:
+    with open("inventaire.json", "r") as fichier:
+        inventaire = json.load(fichier)
+except FileNotFoundError:
+     print("Aucune sauvegarde trouvée, création d'un nouvel inventaire.")
 # Initialisation de notre base de données 
-inventaire = {
+     inventaire = {
     "Routeur": "192.168.1.1",
     "Serveur_Web": "10.0.0.5"
 }
@@ -16,11 +20,11 @@ while True:
     
     if nom.lower() == "quitter":
         print("Fermeture de l'inventaire.")
+        
         with open ("inventaire.json", "w") as fichier:
             json.dump(inventaire,fichier, indent=4)
-            
         break
-        
+            
     # On vérifie si la clé existe dans le dictionnaire
     if nom in inventaire:
         # Si oui on affiche la valeur associée
